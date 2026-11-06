@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ course_name }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main>
+    <h1>{{ course_name }}</h1>
+    <p class="note">{{ students }} students responded.</p>
+
+    {% if not shown %}
+      <p class="errors">Results are hidden because fewer than {{ min_group }} students responded.</p>
+    {% else %}
+      <p>Average rating: <strong>{{ "%.2f"|format(average) }}</strong> out of 5</p>
+      <p class="note">{{ comments }} comment(s) received. Comments are not displayed, to protect anonymity.</p>
+
+      <h2>Rating distribution</h2>
+      <table>
+        <thead><tr><th>Rating</th><th>Count</th><th>Share</th></tr></thead>
+        <tbody>
+          {% for d in distribution %}
+            <tr><td>{{ d.rating }}</td><td>{{ d.count }}</td><td>{{ d.percent }}%</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <h2>Average by question</h2>
+      <table>
+        <thead><tr><th>Question</th><th>Ratings</th><th>Average</th><th>Favorable</th></tr></thead>
+        <tbody>
+          {% for q in questions %}
+            <tr>
+              <td>{{ q.question_text }}</td>
+              <td>{{ q.n }}</td>
+              {% if q.shown %}
+                <td>{{ "%.2f"|format(q.average) }}</td><td>{{ q.favorable }}%</td>
+              {% else %}
+                <td colspan="2" class="hidden-row">Hidden (too few ratings)</td>
+              {% endif %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% endif %}
+
+    <p><a href="{{ url_for('results') }}">Back to all results</a></p>
+  </main>
+</body>
+</html>

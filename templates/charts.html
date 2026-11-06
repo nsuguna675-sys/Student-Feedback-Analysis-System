@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Charts</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main>
+    <h1>Feedback Charts</h1>
+    <p class="note">Courses with fewer than 5 responses are not shown, to protect anonymity.</p>
+
+    <h2>Course comparison</h2>
+    <img class="chart" src="{{ url_for('chart_course_comparison') }}"
+         alt="Bar chart of the average rating for each course">
+
+    <h2>Rating distribution</h2>
+    <img class="chart" src="{{ url_for('chart_distribution') }}"
+         alt="Stacked bar chart of the share of ratings from 1 to 5 for each course">
+
+    <p><a href="{{ url_for('results') }}">Back to results</a></p>
+  </main>
+</body>
+</html>

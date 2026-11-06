@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Results</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main>
+    <h1>Course Feedback Results</h1>
+    <p class="note">
+      Ratings are on a scale of 1 (lowest) to 5 (highest). "Favorable" means a rating of 4 or 5.
+      To protect anonymity, courses with fewer than {{ min_group }} responses are hidden.
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Course</th><th>Students</th><th>Ratings</th><th>Average</th><th>Favorable</th><th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for c in courses %}
+          <tr>
+            <td>{{ c.course_name }}</td>
+            <td>{{ c.students }}</td>
+            <td>{{ c.ratings }}</td>
+            {% if c.shown %}
+              <td>{{ "%.2f"|format(c.average) }}</td>
+              <td>{{ c.favorable }}%</td>
+              <td><a href="{{ url_for('course_page', course_id=c.course_id) }}">Details</a></td>
+            {% else %}
+              <td colspan="3" class="hidden-row">Hidden: fewer than {{ min_group }} responses</td>
+            {% endif %}
+          </tr>
+        {% else %}
+          <tr><td colspan="6">No feedback yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+        <p><a href="{{ url_for('charts_page') }}">View charts</a></p>
+            <h2>Download summaries (CSV)</h2>
+    <ul>
+      <li><a href="{{ url_for('export_course_summary') }}">Course summary</a></li>
+      <li><a href="{{ url_for('export_question_summary') }}">Question summary</a></li>
+      <li><a href="{{ url_for('export_rating_distribution') }}">Rating distribution</a></li>
+    </ul>
+    <p><a href="{{ url_for('form') }}">Back to the feedback form</a></p>
+  </main>
+</body>
+</html>
