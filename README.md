@@ -54,10 +54,6 @@ python app.py
 - `/charts` – Charts and visualizations
 - `/export/course-summary.csv` – Download course summary
 
-## Contributors
-Group Project
-
-Original project repository: https://github.com/PrudhvinathTanneeru/Student_feedback_system
 
 ## Limitations
 - Duplicate submissions may occur.
